@@ -1,0 +1,15 @@
+replicaCount: 1
+
+appName: ai-fastapi
+
+containerPort: 8000
+
+image:
+  repository: ai-container-test
+  tag: v2
+  pullPolicy: Never
+
+service:
+  type: NodePort
+  port: 8000
+  targetPort: 8000

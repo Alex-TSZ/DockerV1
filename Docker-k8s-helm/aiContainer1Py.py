@@ -7,6 +7,8 @@ logging.basicConfig(level=logging.INFO)
 
 model = None
 
+app = FastAPI()
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global model
@@ -20,4 +22,15 @@ async def lifespan(app: FastAPI):
 
     logging.info("Shutting down AI")
 
-app = FastAPI(lifespan=lifespan)
+app.router.lifespan_context = lifespan
+
+@app.get("/")
+async def root():
+    return {
+        "status": "running",
+        "model": model
+    }
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
